@@ -4,9 +4,9 @@ class Piece
     attr_reader :color, :position
 
     def initialize(color, board, position)
-        @color = color
+        @color = color #type here is symbol
         @board = board
-        @position = position
+        @position = position #type here is array
     end
 
     def to_s
@@ -15,9 +15,6 @@ class Piece
         else
             return 'nil'
         end
-    end
-
-    def moves
     end
 
     def empty?

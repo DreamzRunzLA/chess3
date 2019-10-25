@@ -11,7 +11,7 @@ class Rook < Piece
     end
 
     def move_dirs
-        return 'hv'
+        #Overwrites method in slideable
     end
 
 end
@@ -26,7 +26,7 @@ class Bishop < Piece
     end
 
     def move_dirs
-        return 'd'
+        #Overwrites method in slideable
     end
 
 end
@@ -41,7 +41,7 @@ class Queen < Piece
     end
 
     def move_dirs
-        return 'b'
+        #Overwrites method in slideable
     end
 
 end

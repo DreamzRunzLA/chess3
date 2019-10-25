@@ -10,6 +10,10 @@ class Knight < Piece
         @symbol = "KN"
     end
 
+    def move_diffs
+        #Overwrite the Stepable method here
+    end
+
 end
 
 class King < Piece
@@ -19,6 +23,10 @@ class King < Piece
     def initialize(color, board, position)
         super(color, board, position)
         @symbol = "KI"
+    end
+
+    def move_diffs
+        #Overwrite the Stepable method here
     end
 
 end

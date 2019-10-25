@@ -17,7 +17,7 @@ class Pawn < Piece
     end
 
     def forward_dir
-        if self.color == 'black'
+        if self.color == :black
             return -1
         else
             return 1
