@@ -11,7 +11,7 @@ class Rook < Piece
     end
 
     def move_dirs
-        #Overwrites method in slideable
+        return horizontal_dirs
     end
 
 end
@@ -26,7 +26,7 @@ class Bishop < Piece
     end
 
     def move_dirs
-        #Overwrites method in slideable
+        return diagonol_dirs
     end
 
 end
@@ -41,7 +41,7 @@ class Queen < Piece
     end
 
     def move_dirs
-        #Overwrites method in slideable
+        return horizontal_dirs.concat(diagonol_dirs)
     end
 
 end
