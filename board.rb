@@ -1,8 +1,10 @@
 require_relative('piece')
 
 class Board
+    attr_reader :board
+
     def initialize
-        @board = Array.new(7) { Array.new(7) {''} }
+        @board = Array.new(8) { Array.new(8) {''} }
         setup
     end
 
@@ -18,8 +20,24 @@ class Board
         end
     end
 
-    def self.move_piece(start_pos, end_pos)
-        #comment
+    def [](pos)
+        @board[pos[0]][pos[1]]
+    end
+    
+    def []=(pos, val)
+        @board[pos[0]][pos[1]] = val
+    end
+
+    def move_piece(start_pos, end_pos)
+        if self.board[start_pos[0]][start_pos[1]] == nil
+            raise "no piece at start_pos!"
+        elsif self.board[end_pos[0]][end_pos[1]] != nil
+            raise "cannot move piece to end_pos!"
+        else
+            temp = self.board[start_pos[0]][start_pos[1]]
+            self.board[start_pos[0]][start_pos[1]] = nil
+            self.board[end_pos[0]][end_pos[1]] = temp
+        end
     end
 
 end
