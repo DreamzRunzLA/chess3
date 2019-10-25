@@ -1,3 +1,5 @@
+require_relative('board')
+
 class Piece
     def initialize(color, board, position)
         @color = color
@@ -26,5 +28,5 @@ class Piece
     def move_into_check?(end_pos)
     end
 
-    private :move_into_check
+    private :move_into_check?
 end
