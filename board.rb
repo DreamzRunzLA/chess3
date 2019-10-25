@@ -14,7 +14,7 @@ class Board
                 if i == 0 || i == 1 || i == 6 || i == 7
                     @board[i][k] = Piece.new('white', self, [i, k])
                 else
-                    @board[i][k] = nil
+                    @board[i][k] = NullPiece.instance
                 end
             end
         end

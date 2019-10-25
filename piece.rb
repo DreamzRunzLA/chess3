@@ -1,7 +1,7 @@
 require_relative('board')
 
 class Piece
-    attr_reader :color, :position
+    attr_reader :color, :position, :board
 
     def initialize(color, board, position)
         @color = color #type here is symbol
