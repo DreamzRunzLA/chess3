@@ -8,6 +8,7 @@ class Piece
     end
 
     def to_s
+        return self.symbol
     end
 
     def moves

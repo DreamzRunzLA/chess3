@@ -1,9 +1,11 @@
 require_relative('piece')
 
 class Pawn < Piece
-    def initialize(color, board, position, symbol)
+    attr_reader :symbol
+
+    def initialize(color, board, position)
         super(color, board, position)
-        @symbol = symbol
+        @symbol = "PA"
     end
 
     def move_dirs
@@ -30,5 +32,5 @@ class Pawn < Piece
     
     end
 
-    private :at_start_row, :forward_dir, :forward_steps, :side_attacks
+    private :at_start_row?, :forward_dir, :forward_steps, :side_attacks
 end
