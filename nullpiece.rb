@@ -1,4 +1,4 @@
-require_relative('singleton')
+require('singleton')
 require_relative('piece')
 
 class NullPiece < Piece
@@ -9,5 +9,6 @@ class NullPiece < Piece
         @color = nil
         @symbol = nil
     end
-
 end
+
+#Use instance instead of new to create the single object

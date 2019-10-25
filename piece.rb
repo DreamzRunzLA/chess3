@@ -1,6 +1,8 @@
 require_relative('board')
 
 class Piece
+    attr_reader :color, :position
+
     def initialize(color, board, position)
         @color = color
         @board = board
@@ -8,7 +10,11 @@ class Piece
     end
 
     def to_s
-        return self.symbol
+        if self.symbol != nil
+            return self.symbol
+        else
+            return 'nil'
+        end
     end
 
     def moves

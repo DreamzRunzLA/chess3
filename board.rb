@@ -40,4 +40,16 @@ class Board
         end
     end
 
+    def render
+        system('clear')
+        puts "   #{(0...@board.length).to_a.join(' ')}"
+        @board.each_with_index do |row, i|
+            rendered = i.to_s
+            row.each_with_index do |col, k|
+                rendered += col.to_s 
+            end
+            puts rendered
+        end
+    end
+
 end
