@@ -1,4 +1,7 @@
-require_relative('piece')
+require_relative('nullpiece')
+require_relative('pawn')
+require_relative('knight_king')
+require_relative('rook_bishop_queen')
 
 class Board
     attr_reader :board
@@ -12,7 +15,7 @@ class Board
         @board.each_with_index do |row, i|
             row.each_with_index do |col, k|
                 if i == 0 || i == 1 || i == 6 || i == 7
-                    @board[i][k] = Piece.new('white', self, [i, k])
+                    @board[i][k] = Piece.new(:black, self, [i, k])
                 else
                     @board[i][k] = NullPiece.instance
                 end
@@ -42,9 +45,9 @@ class Board
 
     def render
         system('clear')
-        puts "   #{(0...@board.length).to_a.join(' ')}"
+        puts "   #{(0...@board.length).to_a.join('  ')}"
         @board.each_with_index do |row, i|
-            rendered = i.to_s
+            rendered = i.to_s + ' '
             row.each_with_index do |col, k|
                 rendered += col.to_s 
             end
