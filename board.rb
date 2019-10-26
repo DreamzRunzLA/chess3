@@ -57,3 +57,14 @@ class Board
     end
 
 end
+
+if $PROGRAM_NAME == __FILE__
+    myBoard = Board.new
+    p1 = Pawn.new(:black, myBoard, [4,1])
+    p2 = Pawn.new(:black, myBoard, [4,3])
+    pmain = Pawn.new(:white, myBoard, [5,2])
+    myBoard.[]=([4,1], p1)
+    myBoard.[]=([4,3], p2)
+    myBoard.[]=([5,2], pmain)
+    p pmain.side_attacks
+end
