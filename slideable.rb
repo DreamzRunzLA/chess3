@@ -13,10 +13,13 @@ module Slideable
     end
 
     def moves
+        all_moves = []
         self.move_dirs.each do |direction|
             dx = direction[0]
             dy = direction[1]
+            all_moves.concat(grow_unblocked_moves_in_dir(dx, dy))
         end
+        return all_moves
     end
 
     def grow_unblocked_moves_in_dir(dx, dy)
@@ -25,7 +28,6 @@ module Slideable
 
         new_x = self.position[0] + dx
         new_y = self.position[1] + dy
-        # debugger
         while true
             if self.board.[]([new_x, new_y]).color == nil && new_x < 7 && new_y < 7 && new_x > 0 && new_y > 0
                 unblocked_moves << [new_x, new_y]
