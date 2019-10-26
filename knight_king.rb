@@ -11,7 +11,7 @@ class Knight < Piece
     end
 
     def move_diffs
-        #Overwrite the Stepable method here
+        return [[2,1],[1,2],[-2,1],[1,-2],[2,-1],[-1,2],[-2,-1],[-1,-2]]
     end
 
 end
@@ -26,7 +26,7 @@ class King < Piece
     end
 
     def move_diffs
-        #Overwrite the Stepable method here
+        return [[1,0],[1,1],[0,1],[-1,1],[0,-1],[-1,-1],[-1,0],[1,-1]]
     end
 
 end
