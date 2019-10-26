@@ -15,7 +15,7 @@ class Board
         @board.each_with_index do |row, i|
             row.each_with_index do |col, k|
                 if i == 0 || i == 1 || i == 6 || i == 7
-                    @board[i][k] = Piece.new(:black, self, [i, k])
+                    @board[i][k] = Pawn.new(:black, self, [i, k])
                 else
                     @board[i][k] = NullPiece.instance
                 end
@@ -53,6 +53,7 @@ class Board
             end
             puts rendered
         end
+        return ''
     end
 
 end
