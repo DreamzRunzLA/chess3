@@ -14,10 +14,30 @@ class Board
     def setup
         @board.each_with_index do |row, i|
             row.each_with_index do |col, k|
-                if i == 0 || i == 1 || i == 6 || i == 7
-                    @board[i][k] = Pawn.new(:black, self, [i, k])
-                else
+                if i == 4 || i == 5 || i == 2 || i == 3
                     @board[i][k] = NullPiece.instance
+                elsif i == 0
+                    @board[i][0] = Rook.new(:black, self, [i, 0])
+                    @board[i][7] = Rook.new(:black, self, [i, 7])
+                    @board[i][1] = Knight.new(:black, self, [i, 1])
+                    @board[i][6] = Knight.new(:black, self, [i, 6])
+                    @board[i][2] = Bishop.new(:black, self, [i, 2])
+                    @board[i][5] = Bishop.new(:black, self, [i, 5])
+                    @board[i][3] = Queen.new(:black, self, [i,3])
+                    @board[i][4] = King.new(:black, self, [i,4])
+                elsif i == 1
+                    @board[i][k] = Pawn.new(:black, self, [i, k])
+                elsif i == 6
+                    @board[i][k] = Pawn.new(:white, self, [i, k])
+                elsif i == 7
+                    @board[i][0] = Rook.new(:white, self, [i, 0])
+                    @board[i][7] = Rook.new(:white, self, [i, 7])
+                    @board[i][1] = Knight.new(:white, self, [i, 1])
+                    @board[i][6] = Knight.new(:white, self, [i, 6])
+                    @board[i][2] = Bishop.new(:white, self, [i, 2])
+                    @board[i][5] = Bishop.new(:white, self, [i, 5])
+                    @board[i][3] = Queen.new(:white, self, [i,3])
+                    @board[i][4] = King.new(:white, self, [i,4])
                 end
             end
         end
@@ -49,7 +69,7 @@ class Board
         @board.each_with_index do |row, i|
             rendered = i.to_s + ' '
             row.each_with_index do |col, k|
-                rendered += col.to_s 
+                rendered += col.to_s + ' '
             end
             puts rendered
         end
@@ -59,6 +79,9 @@ class Board
 end
 
 if $PROGRAM_NAME == __FILE__
+    my_board = Board.new
+    my_board.render
+    p my_board.[]([7,3]).valid_moves
 end
 
 # Tests

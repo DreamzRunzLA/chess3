@@ -19,6 +19,11 @@ class Piece
     end
 
     def valid_moves
+        if self.symbol == "PA"
+            return self.move_dirs
+        else
+            return self.moves
+        end
     end
 
     def pos=(val)
