@@ -1,74 +1,62 @@
-require('byebug')
-
 module Slideable
-    HORIZONTAL_DIRS = [[0,1],[0,-1],[1,0],[-1,0]]
-    DIAGONOL_DIRS = [[1,1],[1,-1],[-1,-1],[-1,1]]
+  HORIZONTAL_AND_VERTICAL_DIRS = [
+    [-1, 0],
+    [0, -1],
+    [0, 1],
+    [1, 0]
+  ].freeze
 
-    def horizontal_dirs
-        HORIZONTAL_DIRS
+  DIAGONAL_DIRS = [
+    [-1, -1],
+    [-1, 1],
+    [1, -1],
+    [1, 1]
+  ].freeze
+
+  def horizontal_and_vertical_dirs
+    HORIZONTAL_AND_VERTICAL_DIRS
+  end
+
+  def diagonal_dirs
+    DIAGONAL_DIRS
+  end
+
+  def moves
+    moves = []
+
+    move_dirs.each do |dx, dy|
+      moves.concat(grow_unblocked_moves_in_dir(dx, dy))
     end
 
-    def diagonol_dirs
-        DIAGONOL_DIRS
+    moves
+  end
+
+  private
+
+  def move_dirs
+    # subclass implements this
+    raise NotImplementedError
+  end
+
+  def grow_unblocked_moves_in_dir(dx, dy)
+    cur_x, cur_y = pos
+    moves = []
+    loop do
+      cur_x, cur_y = cur_x + dx, cur_y + dy
+      pos = [cur_x, cur_y]
+
+      break unless board.valid_pos?(pos)
+
+      if board.empty?(pos)
+        moves << pos
+      else
+        # can take an opponent's piece
+        moves << pos if board[pos].color != color
+
+        # can't move past blocking piece
+        break
+      end
     end
-
-    def moves
-        all_moves = []
-        self.move_dirs.each do |direction|
-            dx = direction[0]
-            dy = direction[1]
-            all_moves.concat(grow_unblocked_moves_in_dir(dx, dy))
-        end
-        return all_moves
-    end
-
-    # def grow_unblocked_moves_in_dir(dx, dy)
-    #     #Feed it an entry from either horizontal or diagonol dirs
-    #     unblocked_moves = []
-
-    #     new_x = self.position[0] + dx
-    #     new_y = self.position[1] + dy
-    #     while true
-    #         if self.board.[]([new_x, new_y]).color == nil && new_x < 7 && new_y < 7 && new_x > 0 && new_y > 0
-    #             unblocked_moves << [new_x, new_y]
-    #             new_x += dx
-    #             new_y += dy
-    #         elsif self.board.[]([new_x, new_y]).color != self.color
-    #             unblocked_moves << [new_x, new_y]
-    #             return unblocked_moves
-    #         else
-    #             break
-    #         end
-    #     end
-
-    #     return unblocked_moves
-    # end
-
-    def grow_unblocked_moves_in_dir(dx, dy)
-        cur_x, cur_y = self.position
-        moves = []
-        loop do
-        cur_x, cur_y = cur_x + dx, cur_y + dy
-        pos = [cur_x, cur_y]
-
-        break unless board.valid_pos?(pos)
-
-        if board.[](pos).empty?
-            moves << pos
-        else
-            # can take an opponent's piece
-            moves << pos if board[pos].color != color
-
-            # can't move past blocking piece
-            break
-        end
-        end
-        moves
-    end
-
-    def move_dirs
-        #overwritten by subclass
-    end
-
-    # private :move_dirs, :grow_unblocked_moves_in_dir
+    moves
+  end
 end

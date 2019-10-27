@@ -1,81 +1,17 @@
-require_relative('nullpiece')
-require_relative('pawn')
-require_relative('knight_king')
-require_relative('rook_bishop_queen')
-#start of phase 2
+require_relative 'pieces'
 
 class Board
-    attr_reader :board
+  attr_reader :rows
 
-    def initialize
-        @board = Array.new(8) { Array.new(8) {''} }
-        setup
-    end
-
-    def setup
-        @board.each_with_index do |row, i|
-            row.each_with_index do |col, k|
-                if i == 4 || i == 5 || i == 2 || i == 3
-                    @board[i][k] = NullPiece.instance
-                elsif i == 0
-                    @board[i][0] = Rook.new(:black, self, [i, 0])
-                    @board[i][7] = Rook.new(:black, self, [i, 7])
-                    @board[i][1] = Knight.new(:black, self, [i, 1])
-                    @board[i][6] = Knight.new(:black, self, [i, 6])
-                    @board[i][2] = Bishop.new(:black, self, [i, 2])
-                    @board[i][5] = Bishop.new(:black, self, [i, 5])
-                    @board[i][3] = Queen.new(:black, self, [i,3])
-                    @board[i][4] = King.new(:black, self, [i,4])
-                elsif i == 1
-                    @board[i][k] = Pawn.new(:black, self, [i, k])
-                elsif i == 6
-                    @board[i][k] = Pawn.new(:white, self, [i, k])
-                elsif i == 7
-                    @board[i][0] = Rook.new(:white, self, [i, 0])
-                    @board[i][7] = Rook.new(:white, self, [i, 7])
-                    @board[i][1] = Knight.new(:white, self, [i, 1])
-                    @board[i][6] = Knight.new(:white, self, [i, 6])
-                    @board[i][2] = Bishop.new(:white, self, [i, 2])
-                    @board[i][5] = Bishop.new(:white, self, [i, 5])
-                    @board[i][3] = Queen.new(:white, self, [i,3])
-                    @board[i][4] = King.new(:white, self, [i,4])
-                end
-            end
-        end
-    end
-
-    def [](pos)
-        @board[pos[0]][pos[1]]
-    end
-    
-    def []=(pos, val)
-        @board[pos[0]][pos[1]] = val
-    end
-
-    def move_piece(start_pos, end_pos)
-        if self.board[start_pos[0]][start_pos[1]] == nil
-            raise "no piece at start_pos!"
-        elsif self.board[end_pos[0]][end_pos[1]] != nil
-            raise "cannot move piece to end_pos!"
-        else
-            temp = self.board[start_pos[0]][start_pos[1]]
-            self.board[start_pos[0]][start_pos[1]] = nil
-            self.board[end_pos[0]][end_pos[1]] = temp
-        end
-    end
-
-    def valid_pos?(pos)
-        pos.all? { |coord| coord.between?(0, 7) }
-    end
-
-    def empty?(pos)
-        self.position.empty?
-    end
+  def initialize(fill_board = true)
+    @sentinel = NullPiece.instance
+    make_starting_grid(fill_board)
+  end
 
     def render
         system('clear')
-        puts "   #{(0...@board.length).to_a.join('  ')}"
-        @board.each_with_index do |row, i|
+        puts "   #{(0...@rows.length).to_a.join('    ')}"
+        @rows.each_with_index do |row, i|
             rendered = i.to_s + ' '
             row.each_with_index do |col, k|
                 rendered += col.to_s + ' '
@@ -85,6 +21,103 @@ class Board
         return ''
     end
 
+  def [](pos)
+    raise 'invalid pos' unless valid_pos?(pos)
+
+    row, col = pos
+    @rows[row][col]
+  end
+
+  def []=(pos, piece)
+    raise 'invalid pos' unless valid_pos?(pos)
+
+    row, col = pos
+    @rows[row][col] = piece
+  end
+
+  def add_piece(piece, pos)
+    raise 'position not empty' unless empty?(pos)
+
+    self[pos] = piece
+  end
+
+  def checkmate?(color)
+  end
+
+  def dup
+  end
+
+  def empty?(pos)
+    self[pos].empty?
+  end
+
+  def in_check?(color)
+  end
+
+  def move_piece(turn_color, start_pos, end_pos)
+    raise 'start position is empty' if empty?(start_pos)
+
+    piece = self[start_pos]
+    if piece.color != turn_color
+      raise 'You must move your own piece'
+    elsif !piece.moves.include?(end_pos)
+      raise 'Piece does not move like that'
+    elsif !piece.valid_moves.include?(end_pos)
+      raise 'You cannot move into check'
+    end
+
+    move_piece!(start_pos, end_pos)
+  end
+
+  # move without performing checks
+  def move_piece!(start_pos, end_pos)
+    piece = self[start_pos]
+    raise 'piece cannot move like that' unless piece.moves.include?(end_pos)
+
+    self[end_pos] = piece
+    self[start_pos] = sentinel
+    piece.pos = end_pos
+
+    nil
+  end
+
+  def pieces
+    @rows.flatten.reject(&:empty?)
+  end
+
+  def valid_pos?(pos)
+    pos.all? { |coord| coord.between?(0, 7) }
+  end
+
+  private
+
+  attr_reader :sentinel
+
+  def fill_back_row(color)
+    back_pieces = [
+      Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook
+    ]
+
+    i = color == :white ? 7 : 0
+    back_pieces.each_with_index do |piece_class, j|
+      piece_class.new(color, self, [i, j])
+    end
+  end
+
+  def fill_pawns_row(color)
+    i = color == :white ? 6 : 1
+    8.times { |j| Pawn.new(color, self, [i, j]) }
+  end
+
+  def make_starting_grid(fill_board)
+    @rows = Array.new(8) { Array.new(8, sentinel) }
+    return unless fill_board
+    %i(white black).each do |color|
+      fill_back_row(color)
+      fill_pawns_row(color)
+    end
+  end
+
 end
 
 if $PROGRAM_NAME == __FILE__
@@ -92,22 +125,3 @@ if $PROGRAM_NAME == __FILE__
     my_board.render
     p my_board.[]([7,3]).valid_moves
 end
-
-# Tests
-# p1 = Pawn.new(:black, myBoard, [4,1])
-# p2 = Pawn.new(:black, myBoard, [4,3])
-# pmain = Pawn.new(:white, myBoard, [5,2])
-# myBoard.[]=([4,1], p1)
-# myBoard.[]=([4,3], p2)
-# myBoard.[]=([5,2], pmain)
-# p pmain.side_attacks
-
-# More Tests
-# myBoard = Board.new
-# black1 = Pawn.new(:black, myBoard, [5,2])
-# black2 = Pawn.new(:black, myBoard, [5,4])
-# pawny = Pawn.new(:white, myBoard, [6,3])
-# myBoard.[]=([5,2], black1)
-# myBoard.[]=([5,4], black2)
-# myBoard.[]=([6,3], pawny)
-# p pawny.move_dirs
