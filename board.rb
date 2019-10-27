@@ -63,6 +63,14 @@ class Board
         end
     end
 
+    def valid_pos?(pos)
+        pos.all? { |coord| coord.between?(0, 7) }
+    end
+
+    def empty?(pos)
+        self.position.empty?
+    end
+
     def render
         system('clear')
         puts "   #{(0...@board.length).to_a.join('  ')}"
