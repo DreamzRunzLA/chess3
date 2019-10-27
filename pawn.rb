@@ -11,7 +11,10 @@ class Pawn < Piece
     end
 
     def move_dirs
-
+        all_moves = []
+        all_moves.concat(self.forward_steps)
+        all_moves.concat(self.side_attacks)
+        return all_moves
     end
 
     def at_start_row?
@@ -31,7 +34,19 @@ class Pawn < Piece
     end
 
     def forward_steps
+        steps = []
+        
+        #Check just forward block
+        if self.board.[]([self.position[0] + self.forward_dir, self.position[1]]).color == nil
+            steps << [self.position[0] + self.forward_dir, self.position[1]]
+        end
+        
+        #Check if in home row and 2 blocks ahead is clear
+        if self.board.[]([self.position[0] + self.forward_dir + self.forward_dir, self.position[1]]).color == nil && self.at_start_row?
+            steps << [self.position[0] + self.forward_dir + self.forward_dir, self.position[1]]
+        end
 
+        return steps
     end
 
     def side_attacks
