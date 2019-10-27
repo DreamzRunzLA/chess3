@@ -2,6 +2,7 @@ require_relative('nullpiece')
 require_relative('pawn')
 require_relative('knight_king')
 require_relative('rook_bishop_queen')
+#start of phase 2
 
 class Board
     attr_reader :board
