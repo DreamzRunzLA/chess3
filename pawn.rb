@@ -5,12 +5,12 @@ require_relative('piece')
 class Pawn < Piece
     attr_reader :symbol
 
-    def initialize(color, board, position)
-        super(color, board, position)
+    def initialize(color, board, pos)
+        super(color, board, pos)
         @symbol = "PA"
     end
 
-    def move_dirs
+    def moves
         all_moves = []
         all_moves.concat(self.forward_steps)
         all_moves.concat(self.side_attacks)
@@ -18,7 +18,7 @@ class Pawn < Piece
     end
 
     def at_start_row?
-        if (self.color == :black && self.position[0] == 1) || (self.color == :white && self.position[0] == 6)
+        if (self.color == :black && self.pos[0] == 1) || (self.color == :white && self.pos[0] == 6)
             return true
         else
             return false
@@ -37,13 +37,13 @@ class Pawn < Piece
         steps = []
         
         #Check just forward block
-        if self.board.[]([self.position[0] + self.forward_dir, self.position[1]]).color == nil
-            steps << [self.position[0] + self.forward_dir, self.position[1]]
+        if self.board.[]([self.pos[0] + self.forward_dir, self.pos[1]]).empty? == true
+            steps << [self.pos[0] + self.forward_dir, self.pos[1]]
         end
         
         #Check if in home row and 2 blocks ahead is clear
-        if self.board.[]([self.position[0] + self.forward_dir + self.forward_dir, self.position[1]]).color == nil && self.at_start_row?
-            steps << [self.position[0] + self.forward_dir + self.forward_dir, self.position[1]]
+        if self.board.[]([self.pos[0] + self.forward_dir + self.forward_dir, self.pos[1]]).empty? == true && self.at_start_row?
+            steps << [self.pos[0] + self.forward_dir + self.forward_dir, self.pos[1]]
         end
 
         return steps
@@ -51,12 +51,12 @@ class Pawn < Piece
 
     def side_attacks
         potential_attacks = []
-        attack1 = [self.position[0] + self.forward_dir, self.position[1] - 1]
-        attack2 = [self.position[0] + self.forward_dir, self.position[1] + 1]
-        if self.board.[](attack1).color != nil && self.board.[](attack1).color != self.color
+        attack1 = [self.pos[0] + self.forward_dir, self.pos[1] - 1]
+        attack2 = [self.pos[0] + self.forward_dir, self.pos[1] + 1]
+        if self.board.[](attack1).empty? == false && self.board.[](attack1).color != self.color
             potential_attacks << attack1
         end
-        if self.board.[](attack2).color != nil && self.board.[](attack2).color != self.color
+        if self.board.[](attack2).empty? == false && self.board.[](attack2).color != self.color
             potential_attacks << attack2
         end
         return potential_attacks

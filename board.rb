@@ -45,6 +45,13 @@ class Board
   end
 
   def dup
+    new_board = Board.new(false)
+
+    pieces.each do |piece|
+      piece.class.new(piece.color, new_board, piece.pos)
+    end
+
+    new_board
   end
 
   def empty?(pos)
@@ -123,5 +130,5 @@ end
 if $PROGRAM_NAME == __FILE__
     my_board = Board.new
     my_board.render
-    p my_board.[]([7,3]).valid_moves
+    p my_board.[]([6,3]).valid_moves
 end

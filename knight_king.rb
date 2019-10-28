@@ -5,8 +5,8 @@ class Knight < Piece
     include Stepable
     attr_reader :symbol
 
-    def initialize(color, board, position)
-        super(color, board, position)
+    def initialize(color, board, pos)
+        super(color, board, pos)
         @symbol = "KN"
     end
 
@@ -20,8 +20,8 @@ class King < Piece
     include Stepable
     attr_reader :symbol
 
-    def initialize(color, board, position)
-        super(color, board, position)
+    def initialize(color, board, pos)
+        super(color, board, pos)
         @symbol = "KI"
     end
 
