@@ -1,4 +1,5 @@
 require "io/console"
+require('byebug')
 
 KEYMAP = {
   " " => :space,
@@ -37,14 +38,20 @@ class Cursor
   def initialize(cursor_pos, board)
     @cursor_pos = cursor_pos
     @board = board
+    @selected = false
   end
 
+  #good to go as is
   def get_input
     key = KEYMAP[read_char]
     handle_key(key)
   end
 
-  private
+  # private
+
+  def toggle_selected
+    @selected = !@selected
+  end
 
   def read_char
     STDIN.echo = false # stops the console from printing return values
@@ -79,6 +86,7 @@ class Cursor
     case key
 
     when :return || :space
+      toggle_selected
       return @cursor_pos
 
     when :left
@@ -99,15 +107,16 @@ class Cursor
 
     when :ctrl_c
       Process.exit(0)
-    
     end
-
+    #Later we will use Player and Game classes to handle movement of pieces
   end
 
   def update_pos(diff)
-    new_pos = (0..2).map{ |i| diff[i] + cursor_pos[i] }
-    if Board.valid_pos?(new_pos)
-      cursor_pos = new_pos
+    new_pos = (0..1).map{ |i| diff[i] + @cursor_pos[i] }
+    if @board.valid_pos?(new_pos)
+      @cursor_pos = new_pos
+      p @cursor_pos
+      sleep(1)
     else
       raise "Invalid pos!"
     end

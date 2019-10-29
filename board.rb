@@ -8,19 +8,6 @@ class Board
     make_starting_grid(fill_board)
   end
 
-    def render
-        system('clear')
-        puts "   #{(0...@rows.length).to_a.join('    ')}"
-        @rows.each_with_index do |row, i|
-            rendered = i.to_s + ' '
-            row.each_with_index do |col, k|
-                rendered += col.to_s + ' '
-            end
-            puts rendered
-        end
-        return ''
-    end
-
   def [](pos)
     raise 'invalid pos' unless valid_pos?(pos)
 
