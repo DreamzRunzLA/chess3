@@ -116,7 +116,6 @@ class Cursor
     if @board.valid_pos?(new_pos)
       @cursor_pos = new_pos
       p @cursor_pos
-      sleep(1)
     else
       raise "Invalid pos!"
     end

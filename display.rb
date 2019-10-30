@@ -13,14 +13,17 @@ class Display
     end
 
     def render
-        i = 0
         while true 
             # system('clear')
             puts "   #{(0...@board.rows.length).to_a.join('    ')}"
             @board.rows.each_with_index do |row, i|
                 rendered = i.to_s + ' '
                 row.each_with_index do |col, k|
-                    rendered += col.to_s + ' '
+                    if i == @cursor.cursor_pos[0] && k == @cursor.cursor_pos[1]
+                        rendered += col.to_s.colorize({:background => :blue }) + ' '
+                    else
+                        rendered += col.to_s + ' '
+                    end
                 end
                 puts rendered
             end
