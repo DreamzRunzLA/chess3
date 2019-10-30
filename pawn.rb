@@ -1,4 +1,5 @@
 require_relative('piece')
+require('byebug')
 
 #Black will always be top, white will always be bottom
 
@@ -37,12 +38,12 @@ class Pawn < Piece
         steps = []
         
         #Check just forward block
-        if self.board.[]([self.pos[0] + self.forward_dir, self.pos[1]]).empty? == true
+        if self.board.valid_pos?([self.pos[0] + self.forward_dir, self.pos[1]]) && self.board.[]([self.pos[0] + self.forward_dir, self.pos[1]]).empty? == true
             steps << [self.pos[0] + self.forward_dir, self.pos[1]]
         end
         
         #Check if in home row and 2 blocks ahead is clear
-        if self.board.[]([self.pos[0] + self.forward_dir + self.forward_dir, self.pos[1]]).empty? == true && self.at_start_row?
+        if self.board.valid_pos?([self.pos[0] + self.forward_dir + self.forward_dir, self.pos[1]]) && self.board.[]([self.pos[0] + self.forward_dir + self.forward_dir, self.pos[1]]).empty? == true && self.at_start_row?
             steps << [self.pos[0] + self.forward_dir + self.forward_dir, self.pos[1]]
         end
 
@@ -50,13 +51,14 @@ class Pawn < Piece
     end
 
     def side_attacks
+        #Make sure you are handling cases when off the board
         potential_attacks = []
         attack1 = [self.pos[0] + self.forward_dir, self.pos[1] - 1]
         attack2 = [self.pos[0] + self.forward_dir, self.pos[1] + 1]
-        if self.board.[](attack1).empty? == false && self.board.[](attack1).color != self.color
+        if self.board.valid_pos?(attack1) && self.board.[](attack1).empty? == false && self.board.[](attack1).color != self.color
             potential_attacks << attack1
         end
-        if self.board.[](attack2).empty? == false && self.board.[](attack2).color != self.color
+        if self.board.valid_pos?(attack2) && self.board.[](attack2).empty? == false && self.board.[](attack2).color != self.color
             potential_attacks << attack2
         end
         return potential_attacks

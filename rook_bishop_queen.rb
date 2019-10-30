@@ -11,7 +11,7 @@ class Rook < Piece
     end
 
     def move_dirs
-        return horizontal_dirs
+        return horizontal_and_vertical_dirs
     end
 
 end
@@ -26,7 +26,7 @@ class Bishop < Piece
     end
 
     def move_dirs
-        return diagonol_dirs
+        return diagonal_dirs
     end
 
 end

@@ -29,6 +29,16 @@ class Board
   end
 
   def checkmate?(color)
+    #Check if in_check? is true AND none of your own pieces have any valid_moves
+    your_pieces = pieces.reject do |piece|
+      piece.color != color
+    end
+
+    no_moves = your_pieces.all? do |piece|
+      piece.valid_moves == []
+    end
+    
+    return self.in_check(color) && no_moves
   end
 
   def dup
@@ -46,6 +56,27 @@ class Board
   end
 
   def in_check?(color)
+    #First find the position of the king on the board
+    #Then check if any of the opponents pieces can move to that position
+    your_pieces = pieces.reject do |piece|
+      piece.color != color
+    end
+
+    their_pieces = pieces.reject do |piece|
+      piece.color == color
+    end
+
+    king_pos = nil
+    your_pieces.each do |piece|
+      if piece.symbol == "KI"
+        king_pos = piece.pos
+      end
+    end
+
+    return their_pieces.any? do |piece|
+      piece.valid_moves.include?(king_pos)
+    end
+
   end
 
   def move_piece(turn_color, start_pos, end_pos)
@@ -116,6 +147,5 @@ end
 
 if $PROGRAM_NAME == __FILE__
     my_board = Board.new
-    my_board.render
-    p my_board.[]([6,3]).valid_moves
+    p my_board.in_check?(:white)
 end
