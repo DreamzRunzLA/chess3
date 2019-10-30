@@ -113,11 +113,18 @@ class Cursor
 
   def update_pos(diff)
     new_pos = (0..1).map{ |i| diff[i] + @cursor_pos[i] }
-    if @board.valid_pos?(new_pos)
-      @cursor_pos = new_pos
-      p @cursor_pos
-    else
-      raise "Invalid pos!"
+    begin
+      if @board.valid_pos?(new_pos)
+        @cursor_pos = new_pos
+      else
+        raise "NOPE"
+      end
+    rescue RuntimeError
+      puts "try again"
+      # "Rubber band" effect
+      new_pos = (0..1).map{ |i| @cursor_pos[i] - diff[i] }
+      retry
     end
   end
+
 end

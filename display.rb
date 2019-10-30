@@ -28,6 +28,7 @@ class Display
                 puts rendered
             end
             @cursor.get_input
+            # system('clear')
         end
     end
     
