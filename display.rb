@@ -20,15 +20,19 @@ class Display
                 rendered = i.to_s + ' '
                 row.each_with_index do |col, k|
                     if i == @cursor.cursor_pos[0] && k == @cursor.cursor_pos[1]
-                        rendered += col.to_s.colorize({:background => :blue }) + ' '
+                        if @cursor.selected == true
+                            rendered += col.to_s.colorize({:background => :red }) + ' '
+                        else
+                            rendered += col.to_s.colorize({:background => :blue }) + ' '
+                        end
                     else
                         rendered += col.to_s + ' '
                     end
                 end
                 puts rendered
             end
-            @cursor.get_input
-            # system('clear')
+            x = @cursor.get_input
+            p x
         end
     end
     
