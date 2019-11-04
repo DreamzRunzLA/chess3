@@ -149,3 +149,9 @@ if $PROGRAM_NAME == __FILE__
     my_board = Board.new
     p my_board.in_check?(:white)
 end
+
+#Insta checkmate
+#[5,6] to [5,5] or f2 to f3
+#[4,1] to [4,3] or e7 to e5
+#[6,6] to [6,4] or g2 to g4
+#[3,0] to [7,4] or d8 to h4
