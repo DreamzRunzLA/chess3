@@ -41,5 +41,6 @@ end
 if $PROGRAM_NAME == __FILE__
     my_board = Board.new
     my_display = Display.new(my_board)
-    my_display.render
+    p my_board.[]([5,6])
+    # my_display.render
 end
