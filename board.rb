@@ -155,19 +155,7 @@ if $PROGRAM_NAME == __FILE__
     my_board.move_piece(:white, [6,5], [5,5])
     my_board.move_piece(:black, [1,4], [3,4])
     my_board.move_piece(:white, [6,6], [4,6])
-    my_board.move_piece(:black, [0,3], [4,7])
-
-    # all_pieces = my_board.pieces.length
-    # your_pieces = my_board.pieces.reject do |piece|
-    #   piece.color != :white
-    # end
-    # your_pieces.each do |piece|
-    #   p piece.valid_moves.length
-    # end
-
-    # Phase 2 tests
-    p my_board.in_check?(:white)
-    p my_board.checkmate?(:white)
+    p my_board.[]([4,7]).valid_moves
 end
 
 #Insta checkmate
