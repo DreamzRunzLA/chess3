@@ -40,7 +40,16 @@ end
 
 if $PROGRAM_NAME == __FILE__
     my_board = Board.new
+    my_board.move_piece(:white, [6,5], [5,5])
+    my_board.move_piece(:black, [1,4], [3,4])
+    my_board.move_piece(:white, [6,6], [4,6])
+    my_board.move_piece(:black, [0,3], [4,7])
     my_display = Display.new(my_board)
-    p my_board.[]([5,6])
-    # my_display.render
+    my_display.render
 end
+
+#Insta checkmate
+#[6,5] to [5,5] or f2 to f3
+#[1,4] to [3,4] or e7 to e5
+#[6,6] to [4,6] or g2 to g4
+#[0,3] to [4,7] or d8 to h4

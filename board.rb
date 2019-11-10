@@ -1,4 +1,5 @@
 require_relative 'pieces'
+require('byebug')
 
 class Board
   attr_reader :rows
@@ -38,7 +39,7 @@ class Board
       piece.valid_moves == []
     end
     
-    return self.in_check(color) && no_moves
+    return self.in_check?(color) && no_moves
   end
 
   def dup
@@ -74,7 +75,7 @@ class Board
     end
 
     return their_pieces.any? do |piece|
-      piece.valid_moves.include?(king_pos)
+      piece.moves.include?(king_pos)
     end
 
   end
@@ -123,6 +124,10 @@ class Board
       Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook
     ]
 
+    # back_pieces = [
+    #   Knight, Knight, Knight, Knight, Knight, Knight, Knight, Knight
+    # ]
+
     i = color == :white ? 7 : 0
     back_pieces.each_with_index do |piece_class, j|
       piece_class.new(color, self, [i, j])
@@ -147,13 +152,29 @@ end
 
 if $PROGRAM_NAME == __FILE__
     my_board = Board.new
+    my_board.move_piece(:white, [6,5], [5,5])
+    my_board.move_piece(:black, [1,4], [3,4])
+    my_board.move_piece(:white, [6,6], [4,6])
+    my_board.move_piece(:black, [0,3], [4,7])
+
+    # all_pieces = my_board.pieces.length
+    # your_pieces = my_board.pieces.reject do |piece|
+    #   piece.color != :white
+    # end
+    # your_pieces.each do |piece|
+    #   p piece.valid_moves.length
+    # end
+
+    # Phase 2 tests
+    p my_board.in_check?(:white)
+    p my_board.checkmate?(:white)
 end
 
 #Insta checkmate
-#[5,6] to [5,5] or f2 to f3
-#[4,1] to [4,3] or e7 to e5
-#[6,6] to [6,4] or g2 to g4
-#[3,0] to [7,4] or d8 to h4
+#[6,5] to [5,5] or f2 to f3
+#[1,4] to [3,4] or e7 to e5
+#[6,6] to [4,6] or g2 to g4
+#[0,3] to [4,7] or d8 to h4
 
 #Old test
 # p my_board.in_check?(:white)
