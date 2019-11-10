@@ -1,16 +1,17 @@
 require_relative 'display'
 
 class Game
-    attr_reader :game_display
+    attr_reader :game_display, :game_board
 
-    def initialize(display)
-        @game_display = display
+    def initialize
+        @game_board = Board.new
+        @game_display = Display.new(@game_board)
     end
 end
 
+
+
 if $PROGRAM_NAME == __FILE__
-    my_board = Board.new
-    my_display = Display.new(my_board)
-    my_game = Game.new(my_display)
+    my_game = Game.new
     my_game.game_display.render
 end
