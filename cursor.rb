@@ -116,6 +116,7 @@ class Cursor
     begin
       if @board.valid_pos?(new_pos)
         @cursor_pos = new_pos
+        p @cursor_pos
       else
         raise "NOPE"
       end
