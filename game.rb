@@ -1,13 +1,14 @@
 require_relative 'display'
+require_relative('human_player')
 
 class Game
-    attr_reader :game_display, :game_board
+    attr_reader :display, :board, :player1, :player2, :current_player
 
     def initialize
         @board = Board.new
         @display = Display.new(@game_board)
-        @player1 = HumanPlayer.new
-        @player2 = HumanPlayer.new
+        @player1 = HumanPlayer.new(:white, @display)
+        @player2 = HumanPlayer.new(:black, @display)
         @current_player = @player1
     end
 
@@ -20,10 +21,10 @@ class Game
     end
 
     def swap_turn!
-        if @current_player == player1
-            @current_player = player2
+        if @current_player == @player1
+            @current_player = @player2
         else
-            @current_player = player1
+            @current_player = @player1
         end
     end
 end
@@ -32,5 +33,16 @@ end
 
 if $PROGRAM_NAME == __FILE__
     my_game = Game.new
-    my_game.game_display.render
+
 end
+
+#Old tests
+# p my_game.player1
+# p my_game.player2
+# p my_game.current_player
+# my_game.swap_turn!
+# p "swapped!"
+# p my_game.current_player
+# my_game.swap_turn!
+# p "swapped again!"
+# p my_game.current_player
