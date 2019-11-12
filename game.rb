@@ -1,4 +1,4 @@
-require_relative 'display'
+require_relative('display')
 require_relative('human_player')
 
 class Game
@@ -6,7 +6,7 @@ class Game
 
     def initialize
         @board = Board.new
-        @display = Display.new(@game_board)
+        @display = Display.new(@board)
         @player1 = HumanPlayer.new(:white, @display)
         @player2 = HumanPlayer.new(:black, @display)
         @current_player = @player1
@@ -18,19 +18,39 @@ class Game
         #Make sure moves are valid
         #Use the swap turn method to constantly switch at the end of each turn
         #Read the position off of @cursor.get_input
-        
+
         until @board.checkmate?(:white) || @board.checkmate?(:white)
             #use these for final tests
             # @board.move_piece(:white, [6,5], [5,5])
             # @board.move_piece(:black, [1,4], [3,4])
             # @board.move_piece(:white, [6,6], [4,6])
             # @board.move_piece(:black, [0,3], [4,7])
-
-            if @display.cursor.selected
-                
+            
+            puts "   #{(0...@board.rows.length).to_a.join('    ')}"
+            @board.rows.each_with_index do |row, i|
+                rendered = i.to_s + ' '
+                row.each_with_index do |col, k|
+                    if i == @display.cursor.cursor_pos[0] && k == @display.cursor.cursor_pos[1]
+                        if @display.cursor.selected == true
+                            rendered += col.to_s.colorize({:background => :red }) + ' '
+                        else
+                            rendered += col.to_s.colorize({:background => :blue }) + ' '
+                        end
+                    else
+                        rendered += col.to_s + ' '
+                    end
+                end
+                puts rendered
             end
+            
+            @current_player.make_move(@board)
+
+            if @display.cursor.selected == true 
+                p "Phyuk Yiu"
+            end
+
         end
-        p "it's all over!"
+
     end
 
     def notify_players

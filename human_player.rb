@@ -11,7 +11,8 @@ class HumanPlayer < Player
         #if not print a message
         #check if the position you are moving to is a valid move location
         #if not, print a message and retry the begin block
-        
+        @display.cursor.get_input
+
     end
 
 end
@@ -46,5 +47,5 @@ if $PROGRAM_NAME == __FILE__
     my_board = Board.new
     my_display = Display.new(my_board)
     my_human_player = HumanPlayer.new(:white, my_display)
-    p my_human_player.make_move(my_board)
+
 end
