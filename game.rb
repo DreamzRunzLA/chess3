@@ -20,13 +20,15 @@ class Game
         #Read the position off of @cursor.get_input
         
         until @board.checkmate?(:white) || @board.checkmate?(:white)
-            # if @display.cursor.selected
+            #use these for final tests
+            # @board.move_piece(:white, [6,5], [5,5])
+            # @board.move_piece(:black, [1,4], [3,4])
+            # @board.move_piece(:white, [6,6], [4,6])
+            # @board.move_piece(:black, [0,3], [4,7])
 
-            # end
-            @board.move_piece(:white, [6,5], [5,5])
-            @board.move_piece(:black, [1,4], [3,4])
-            @board.move_piece(:white, [6,6], [4,6])
-            @board.move_piece(:black, [0,3], [4,7])
+            if @display.cursor.selected
+                
+            end
         end
         p "it's all over!"
     end

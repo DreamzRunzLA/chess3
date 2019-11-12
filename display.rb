@@ -40,10 +40,10 @@ end
 
 if $PROGRAM_NAME == __FILE__
     my_board = Board.new
-    my_board.move_piece(:white, [6,5], [5,5])
-    my_board.move_piece(:black, [1,4], [3,4])
-    my_board.move_piece(:white, [6,6], [4,6])
-    my_board.move_piece(:black, [0,3], [4,7])
+    # my_board.move_piece(:white, [6,5], [5,5])
+    # my_board.move_piece(:black, [1,4], [3,4])
+    # my_board.move_piece(:white, [6,6], [4,6])
+    # my_board.move_piece(:black, [0,3], [4,7])
     my_display = Display.new(my_board)
     my_display.render
 end
