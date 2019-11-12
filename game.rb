@@ -13,6 +13,12 @@ class Game
     end
 
     def play
+        #Until @board.checkmate?
+        #Loop through continuously and ask players to make moves
+        #Make sure moves are valid
+        #Use the swap turn method to constantly switch at the end of each turn
+        #Read the position off of @cursor.get_input
+        
 
     end
 
