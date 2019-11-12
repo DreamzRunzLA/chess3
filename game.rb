@@ -44,13 +44,39 @@ class Game
             end
             
             @current_player.make_move(@board)
+            
+            begin
+                if @display.cursor.selected == true && @board.[](@display.cursor.cursor_pos).color == @current_player.color
+                    p "Select destination"
+                    sleep(1)
+                    # #Second begin/rescue block to handle where the piece is being moved
+                    begin
+                        if @display.cursor.selected == false && @board.[](@display.cursor.cursor_pos).valid_moves.include?(@display.cursor.cursor_pos)
+                            p "Selection is valid"
+                            sleep(1)
+                        elsif @display.cursor.selected == false && @board.[](@display.cursor.cursor_pos).valid_moves.include?(@display.cursor.cursor_pos) == false
+                            raise ArgumentError.new("Can't move your piece there")
+                        else
 
-            if @display.cursor.selected == true 
-                p "Phyuk Yiu"
+                        end
+                    rescue ArgumentError => e
+                        puts e.message
+                        sleep(1)
+                        @display.cursor.toggle_selected
+                        retry
+                    end
+                elsif @display.cursor.selected == true && @board.[](@display.cursor.cursor_pos).color != @current_player.color
+                    raise ArgumentError.new("Ya dun goofed, select one of your pieces")
+                else
+
+                end
+            rescue ArgumentError => e
+                puts e.message
+                sleep(1)
+                @display.cursor.toggle_selected
+                retry
             end
-
         end
-
     end
 
     def notify_players
