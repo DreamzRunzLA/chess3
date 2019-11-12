@@ -19,7 +19,16 @@ class Game
         #Use the swap turn method to constantly switch at the end of each turn
         #Read the position off of @cursor.get_input
         
+        until @board.checkmate?(:white) || @board.checkmate?(:white)
+            # if @display.cursor.selected
 
+            # end
+            @board.move_piece(:white, [6,5], [5,5])
+            @board.move_piece(:black, [1,4], [3,4])
+            @board.move_piece(:white, [6,6], [4,6])
+            @board.move_piece(:black, [0,3], [4,7])
+        end
+        p "it's all over!"
     end
 
     def notify_players
@@ -39,7 +48,7 @@ end
 
 if $PROGRAM_NAME == __FILE__
     my_game = Game.new
-
+    my_game.play
 end
 
 #Old tests

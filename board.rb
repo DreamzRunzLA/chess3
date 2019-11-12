@@ -155,7 +155,8 @@ if $PROGRAM_NAME == __FILE__
     my_board.move_piece(:white, [6,5], [5,5])
     my_board.move_piece(:black, [1,4], [3,4])
     my_board.move_piece(:white, [6,6], [4,6])
-    p my_board.[]([4,7]).valid_moves
+    my_board.move_piece(:black, [0,3], [4,7])
+    p my_board.checkmate?(:white)
 end
 
 #Insta checkmate
